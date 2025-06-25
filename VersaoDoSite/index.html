@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RastroGado - Monitoramento Inteligente para Seu Rebanho</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2E5F3F',
+                        secondary: '#F4EFEA',
+                        accent: '#E88F3C',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(46, 95, 63, 0.8), rgba(46, 95, 63, 0.8)), url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .pricing-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Simple chart animation */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .chart-animation {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-secondary">
+    <!-- Header -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-cow text-accent text-3xl mr-3"></i>
+                <h1 class="text-2xl font-bold">RastroGado</h1>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="#features" class="hover:text-accent transition">Funcionalidades</a></li>
+                    <li><a href="#how-it-works" class="hover:text-accent transition">Como Funciona</a></li>
+                    <li><a href="#tutorials" class="hover:text-accent transition">Tutoriais</a></li>
+                    <li><a href="#pricing" class="hover:text-accent transition">Planos</a></li>
+                    <li><a href="#contact" class="hover:text-accent transition">Contato</a></li>
+                </ul>
+            </nav>
+            <button class="md:hidden text-2xl" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-primary-dark px-4 py-2">
+            <ul class="space-y-2">
+                <li><a href="#features" class="block py-2 hover:text-accent">Funcionalidades</a></li>
+                <li><a href="#how-it-works" class="block py-2 hover:text-accent">Como Funciona</a></li>
+                <li><a href="#tutorials" class="block py-2 hover:text-accent">Tutoriais</a></li>
+                <li><a href="#pricing" class="block py-2 hover:text-accent">Planos</a></li>
+                <li><a href="#contact" class="block py-2 hover:text-accent">Contato</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-20 md:py-32">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Cuide do seu rebanho com tecnologia simples</h2>
+                <p class="text-xl mb-8">Monitoramento em tempo real, alertas instantâneos e gestão completa do seu gado na palma da sua mão.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#pricing" class="bg-accent hover:bg-orange-500 text-white font-bold py-4 px-8 rounded-lg text-center transition">Comece
+                         hoje</a>
+                    <a href="#how-it-works" class="bg-white hover:bg-gray-100 text-primary font-bold py-4 px-8 rounded-lg text-center transition">Como funciona</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="bg-white rounded-xl shadow-2xl p-2 w-full max-w-md">
+                    <div class="bg-gray-100 rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-primary font-bold">Painel RastroGado</h3>
+                            <span class="text-xs bg-accent text-white px-2 py-1 rounded">Online</span>
+                        </div>
+                        
+                        <!-- Simple chart simulation -->
+                        <div class="mb-4">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium">Batimentos (BPM)</span>
+                                <span class="text-sm text-green-600">Normal</span>
+                            </div>
+                            <div class="h-32 bg-white rounded p-2">
+                                <div class="h-full relative">
+                                    <div class="absolute bottom-0 left-0 right-0 h-4/5 bg-gradient-to-t from-green-100 to-green-50 rounded"></div>
+                                    <div class="absolute bottom-0 left-0 right-0 h-full flex items-end space-x-1">
+                                        <div class="w-3 bg-accent rounded-t" style="height: 30%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 50%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 70%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 90%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 60%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 40%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 80%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 30%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 50%"></div>
+                                        <div class="w-3 bg-accent rounded-t" style="height: 70%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-white p-3 rounded-lg shadow">
+                                <div class="flex items-center">
+                                    <div class="bg-green-100 p-2 rounded-full mr-3">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Localização</p>
+                                        <p class="font-medium">Pastos 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg shadow">
+                                <div class="flex items-center">
+                                    <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                        <i class="fas fa-heartbeat text-blue-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">BPM Médio</p>
+                                        <p class="font-medium">72</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-accent text-white p-3 rounded-lg flex items-center">
+                            <i class="fas fa-bell mr-3"></i>
+                            <div>
+                                <p class="text-sm font-medium">Tudo normal</p>
+                                <p class="text-xs">Última checagem: agora</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Funcionalidades que facilitam seu trabalho</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Tecnologia simples e eficiente desenvolvida especialmente para produtores rurais</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-secondary rounded-xl p-6 shadow-md transition duration-300">
+                    <div class="bg-primary text-white p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                        <i class="fas fa-heartbeat text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Monitoramento de BPM</h3>
+                    <p class="text-gray-600 mb-4">Acompanhe os batimentos cardíacos do seu rebanho em tempo real com gráficos simples e alertas para anomalias.</p>
+                    <div class="h-40 bg-white rounded-lg p-2">
+                        <div class="h-full relative">
+                            <div class="absolute bottom-0 left-0 right-0 h-4/5 bg-gradient-to-t from-green-100 to-green-50 rounded"></div>
+                            <div class="absolute bottom-0 left-0 right-0 h-full flex items-end space-x-1">
+                                <div class="w-2 bg-accent rounded-t" style="height: 40%"></div>
+                                <div class="w-2 bg-accent rounded-t" style="height: 60%"></div>
+                                <div class="w-2 bg-accent rounded-t" style="height: 80%"></div>
+                                <div class="w-2 bg-accent rounded-t" style="height: 50%"></div>
+                                <div class="w-2 bg-accent rounded-t" style="height: 70%"></div>
+                                <div class="w-2 bg-accent rounded-t" style="height: 90%"></div>
+                                <div class="w-2 bg-accent rounded-t" style="height: 30%"></div>
+                                <div class="w-2 bg-accent rounded-t" style="height: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card bg-secondary rounded-xl p-6 shadow-md transition duration-300">
+                    <div class="bg-primary text-white p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                        <i class="fas fa-map-marked-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Rastreamento GPS</h3>
+                    <p class="text-gray-600 mb-4">Saiba exatamente onde cada animal está com nosso sistema de localização preciso e atualizado em tempo real.</p>
+                    <div class="h-40 bg-white rounded-lg p-2 flex items-center justify-center">
+                        <div class="relative w-full h-full">
+                            <div class="absolute inset-0 bg-blue-50 rounded"></div>
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <i class="fas fa-cow text-4xl text-primary"></i>
+                                <div class="absolute -top-2 -right-2 bg-accent text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                                    <i class="fas fa-map-pin"></i>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-2 left-2 bg-white p-1 rounded shadow text-xs">
+                                Pasto Norte
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card bg-secondary rounded-xl p-6 shadow-md transition duration-300">
+                    <div class="bg-primary text-white p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                        <i class="fas fa-tags text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Categorização</h3>
+                    <p class="text-gray-600 mb-4">Organize seu rebanho por sexo, idade ou lote com nosso sistema simples de categorização visual.</p>
+                    <div class="h-40 bg-white rounded-lg p-4">
+                        <div class="flex justify-around h-full items-end">
+                            <div class="text-center">
+                                <div class="bg-blue-100 text-blue-800 p-2 rounded-full mx-auto mb-2">
+                                    <i class="fas fa-mars"></i>
+                                </div>
+                                <p class="text-xs">Machos</p>
+                                <p class="font-bold">42</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-pink-100 text-pink-800 p-2 rounded-full mx-auto mb-2">
+                                    <i class="fas fa-venus"></i>
+                                </div>
+                                <p class="text-xs">Fêmeas</p>
+                                <p class="font-bold">58</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-yellow-100 text-yellow-800 p-2 rounded-full mx-auto mb-2">
+                                    <i class="fas fa-baby"></i>
+                                </div>
+                                <p class="text-xs">Bezerros</p>
+                                <p class="font-bold">12</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card bg-secondary rounded-xl p-6 shadow-md transition duration-300">
+                    <div class="bg-primary text-white p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                        <i class="fas fa-bell text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Alertas em Tempo Real</h3>
+                    <p class="text-gray-600 mb-4">Receba notificações por SMS ou e-mail quando algo fora do normal for detectado com seu rebanho.</p>
+                    <div class="h-40 bg-white rounded-lg p-4 flex flex-col justify-center">
+                        <div class="bg-red-50 border-l-4 border-red-500 p-3 mb-2">
+                            <div class="flex">
+                                <div class="flex-shrink-0 text-red-500">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-red-700">BPM alto detectado no animal #124</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-3">
+                            <div class="flex">
+                                <div class="flex-shrink-0 text-blue-500">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-blue-700">Animal #87 saiu da área delimitada</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="feature-card bg-secondary rounded-xl p-6 shadow-md transition duration-300">
+                    <div class="bg-primary text-white p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Histórico e Relatórios</h3>
+                    <p class="text-gray-600 mb-4">Acesse dados históricos e gere relatórios completos para acompanhar a saúde e movimentação do seu rebanho.</p>
+                    <div class="h-40 bg-white rounded-lg p-4 flex items-center justify-center">
+                        <div class="w-full">
+                            <div class="flex justify-between mb-1">
+                                <span class="text-xs font-medium">Saúde geral</span>
+                                <span class="text-xs">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <div class="flex justify-between mt-4 mb-1">
+                                <span class="text-xs font-medium">Movimentação</span>
+                                <span class="text-xs">72%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 72%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="feature-card bg-secondary rounded-xl p-6 shadow-md transition duration-300">
+                    <div class="bg-primary text-white p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                        <i class="fas fa-mobile-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Aplicativo Mobile</h3>
+                    <p class="text-gray-600 mb-4">Acesse todas as funcionalidades pelo celular, com interface simples e intuitiva para você acompanhar de qualquer lugar.</p>
+                    <div class="h-40 bg-white rounded-lg p-2 flex items-center justify-center">
+                        <div class="relative">
+                            <div class="w-24 h-40 bg-gray-800 rounded-xl border-8 border-gray-900 relative">
+                                <div class="absolute top-1 left-0 right-0 h-6 bg-gray-900 rounded-t-sm"></div>
+                                <div class="absolute top-8 left-2 right-2 bottom-2 bg-primary bg-opacity-10 rounded">
+                                    <div class="flex flex-col items-center justify-center h-full">
+                                        <i class="fas fa-cow text-2xl text-primary mb-2"></i>
+                                        <p class="text-xs font-bold text-primary">RastroGado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-16 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Como funciona o RastroGado</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Em apenas 4 passos simples você começa a monitorar seu rebanho</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                    <div class="bg-primary text-white p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Instale o dispositivo</h3>
+                    <p class="text-gray-600">Nosso colar inteligente é fácil de colocar no animal e não causa desconforto.</p>
+                    <div class="mt-6">
+                        <img src="https://tvbrics.com/upload/iblock/889/emsiii4wyubu1xlk4qn4c00j5qvp0f6c.jpg" alt="Dispositivo sendo instalado no gado" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                    <div class="bg-primary text-white p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Conecte à plataforma</h3>
+                    <p class="text-gray-600">Cadastre cada animal no nosso sistema através do aplicativo ou site.</p>
+                    <div class="mt-6">
+                        <img src="https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img/https://pecuariadealtaperformance.com.br/wp-content/uploads/2024/08/NOVAS-IMAGENS-BLOG_Efficiency-Tour-300x169.jpg" alt="Tablet mostrando o aplicativo RastroGado" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                    <div class="bg-primary text-white p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Monitore seu rebanho</h3>
+                    <p class="text-gray-600">Acompanhe a saúde e localização dos animais em tempo real.</p>
+                    <div class="mt-6">
+                        <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1498&q=80" alt="Fazendeiro usando tablet para monitorar gado" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                    <div class="bg-primary text-white p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">4</div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Receba alertas</h3>
+                    <p class="text-gray-600">Seja notificado imediatamente sobre qualquer anormalidade.</p>
+                    <div class="mt-6">
+                        <img src="https://cdn.discordapp.com/attachments/1115784853737181314/1377451908876468325/image.png?ex=6839038e&is=6837b20e&hm=67f0208e6d97bbf9ce3d851302f0536e77381bc4c3a6079918609f10ede4894a&" alt="Celular mostrando notificação de alerta" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <a href="#pricing" class="bg-accent hover:bg-orange-500 text-white font-bold py-4 px-8 rounded-lg inline-block transition">Quero começar agora</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutorials Section -->
+
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-primary text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">O que dizem nossos clientes</h2>
+                <p class="text-lg max-w-3xl mx-auto">Produtores rurais que já usam o RastroGado e transformaram a gestão do seu rebanho</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-white bg-opacity-10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://www.ogol.com.br/img/jogadores/new/38/67/433867_joao_silva_20250331142329.png" alt="João Silva" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-bold">João Silva</h4>
+                            <p class="text-sm opacity-80">Fazenda Boa Vista, MG</p>
+                        </div>
+                    </div>
+                    <p class="italic">"Depois que comecei a usar o RastroGado, minha vida mudou. Antes perdia muito tempo procurando animais, agora sei exatamente onde cada um está. E os alertas de saúde já me ajudaram a salvar vários animais."</p>
+                    <div class="flex mt-4 text-yellow-300">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card bg-white bg-opacity-10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Maria Oliveira" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-bold">Maria Oliveira</h4>
+                            <p class="text-sm opacity-80">Sítio Esperança, GO</p>
+                        </div>
+                    </div>
+                    <p class="italic">"Eu não sou muito boa com tecnologia, mas o RastroGado é tão simples que até eu consigo usar! Os vídeos explicam tudo direitinho. Agora consigo monitorar meu gado mesmo quando estou na cidade."</p>
+                    <div class="flex mt-4 text-yellow-300">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-white bg-opacity-10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Carlos Mendes" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-bold">Carlos Mendes</h4>
+                            <p class="text-sm opacity-80">Fazenda São Carlos, MT</p>
+                        </div>
+                    </div>
+                    <p class="italic">"Como produtor de gado de corte, o RastroGado me ajuda a tomar decisões mais rápidas e precisas. Os relatórios de saúde do rebanho são excelentes e me ajudaram a reduzir perdas significativamente."</p>
+                    <div class="flex mt-4 text-yellow-300">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-16 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Planos que cabem no seu bolso</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Escolha o plano ideal para o tamanho do seu rebanho</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Starter Plan -->
+                <div class="pricing-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <div class="bg-primary text-white py-6 px-8 text-center">
+                        <h3 class="text-xl font-bold">Starter</h3>
+                        <p class="opacity-90">Para pequenos produtores</p>
+                    </div>
+                    <div class="p-8">
+                        <div class="text-center mb-6">
+                            <span class="text-4xl font-bold text-primary">R$ 99</span>
+                            <span class="text-gray-600">/mês</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Até 50 animais</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Monitoramento de BPM</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Rastreamento GPS</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Alertas por e-mail</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times text-red-400 mr-2"></i>
+                                <span>Alertas por SMS</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times text-red-400 mr-2"></i>
+                                <span>Relatórios avançados</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="block bg-primary hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-center transition">Assinar agora</a>
+                    </div>
+                </div>
+                
+                <!-- Pro Plan (Featured) -->
+                <div class="pricing-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 transform scale-105 relative">
+                    <div class="absolute top-0 right-0 bg-accent text-white px-4 py-1 text-xs font-bold rounded-bl-lg">MAIS POPULAR</div>
+                    <div class="bg-accent text-white py-6 px-8 text-center">
+                        <h3 class="text-xl font-bold">Pro</h3>
+                        <p class="opacity-90">Para produtores médios</p>
+                    </div>
+                    <div class="p-8">
+                        <div class="text-center mb-6">
+                            <span class="text-4xl font-bold text-primary">R$ 199</span>
+                            <span class="text-gray-600">/mês</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Até 200 animais</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Monitoramento de BPM</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Rastreamento GPS</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Alertas por e-mail e SMS</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Relatórios básicos</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-times text-red-400 mr-2"></i>
+                                <span>Suporte prioritário</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="block bg-accent hover:bg-orange-500 text-white font-bold py-3 px-6 rounded-lg text-center transition">Assinar agora</a>
+                    </div>
+                </div>
+                
+                <!-- Enterprise Plan -->
+                <div class="pricing-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <div class="bg-primary text-white py-6 px-8 text-center">
+                        <h3 class="text-xl font-bold">Enterprise</h3>
+                        <p class="opacity-90">Para grandes fazendas</p>
+                    </div>
+                    <div class="p-8">
+                        <div class="text-center mb-6">
+                            <span class="text-4xl font-bold text-primary">R$ 499</span>
+                            <span class="text-gray-600">/mês</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Animais ilimitados</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Monitoramento de BPM</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Rastreamento GPS</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Alertas por e-mail e SMS</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Relatórios avançados</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Suporte prioritário 24/7</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="block bg-primary hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-center transition">Assinar agora</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-gray-600 mb-4">Precisa de um plano personalizado para seu rebanho?</p>
+                <a href="#contact" class="text-accent font-bold hover:text-orange-500 transition">Fale com nosso time</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Sobre Nós</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Conheça a equipe por trás do RastroGado e nossa missão</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+                <div>
+                    <h3 class="text-2xl font-bold text-primary mb-4">Nossa Missão</h3>
+                    <p class="text-gray-600 mb-6">Facilitar a vida do produtor rural através de tecnologia acessível e intuitiva, garantindo o bem-estar animal e aumentando a produtividade das fazendas brasileiras.</p>
+                    
+                    <h3 class="text-2xl font-bold text-primary mb-4">Nossa Visão</h3>
+                    <p class="text-gray-600">Ser referência nacional em soluções tecnológicas para pecuária, tornando o monitoramento de gado uma prática comum em todas as propriedades rurais do país.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold text-primary mb-4">Nossa História</h3>
+                    <p class="text-gray-600">Fundada em 2018 por um grupo de engenheiros e veterinários, a RastroGado nasceu da necessidade de unir tecnologia e pecuária de forma simples. Após anos de pesquisa e desenvolvimento, criamos uma solução que realmente atende às necessidades do produtor rural, com foco especial na usabilidade para quem não tem familiaridade com tecnologia avançada.</p>
+                </div>
+            </div>
+           
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Fale Conosco</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Tire suas dúvidas ou solicite uma demonstração do RastroGado</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <div class="bg-white rounded-xl p-8 shadow-md">
+                    <h3 class="text-2xl font-bold text-primary mb-6">Envie sua mensagem</h3>
+                    <form id="contact-form">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Nome completo</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">E-mail</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Telefone (opcional)</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Mensagem</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition">Enviar mensagem</button>
+                    </form>
+                </div>
+                
+                <div>
+                    <div class="bg-white rounded-xl p-8 shadow-md mb-8">
+                        <h3 class="text-2xl font-bold text-primary mb-6">Informações de contato</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-primary text-white p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Endereço</h4>
+                                    <p class="text-gray-600">Av. das Fazendas, 1234 - Zona Rural<br>Campinas - SP, 13000-000</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-primary text-white p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Telefone</h4>
+                                    <p class="text-gray-600">61 8562-6868<br>Atendimento: Seg-seg, 6h-22h</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-primary text-white p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">E-mail</h4>
+                                    <p class="text-gray-600">rastrogadocontato@gmail.com
+                                        <br>
+                                    
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-8 shadow-md">
+                        <h3 class="text-2xl font-bold text-primary mb-6">FAQ Rápido</h3>
+                        <div class="space-y-4">
+                            <!-- FAQ Item 1 -->
+                            <div class="border-b border-gray-200 pb-4">
+                                <button class="faq-toggle flex justify-between items-center w-full text-left font-medium text-gray-800 hover:text-primary transition">
+                                    <span>Como faço para instalar os dispositivos?</span>
+                                    <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                                </button>
+                                <div class="faq-content hidden mt-2 text-gray-600">
+                                    <p>Temos um tutorial passo a passo no aplicativo e em nosso canal do YouTube. O dispositivo é simples de instalar - basta colocá-lo no colar do animal como uma coleira normal.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 2 -->
+                            <div class="border-b border-gray-200 pb-4">
+                                <button class="faq-toggle flex justify-between items-center w-full text-left font-medium text-gray-800 hover:text-primary transition">
+                                    <span>Preciso de internet na minha fazenda?</span>
+                                    <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                                </button>
+                                <div class="faq-content hidden mt-2 text-gray-600">
+                                    <p>Os dispositivos funcionam com rede celular (3G/4G), então não é necessário Wi-Fi na propriedade. Eles enviam os dados mesmo em áreas com sinal fraco.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 3 -->
+                            <div class="border-b border-gray-200 pb-4">
+                                <button class="faq-toggle flex justify-between items-center w-full text-left font-medium text-gray-800 hover:text-primary transition">
+                                    <span>Quanto tempo dura a bateria do dispositivo?</span>
+                                    <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                                </button>
+                                <div class="faq-content hidden mt-2 text-gray-600">
+                                    <p>A bateria dura em média 6 meses com uso normal. Você receberá um alerta quando estiver no fim para poder recarregar.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 4 -->
+                            <div>
+                                <button class="faq-toggle flex justify-between items-center w-full text-left font-medium text-gray-800 hover:text-primary transition">
+                                    <span>Posso testar antes de comprar?</span>
+                                    <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                                </button>
+                                <div class="faq-content hidden mt-2 text-gray-600">
+                                    <p>Sim! Oferecemos 15 dias grátis para você testar o sistema com até 5 animais. Basta se cadastrar no nosso site.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot -->
+    <div class="fixed bottom-8 right-8 z-50">
+        <button id="chatbot-toggle" class="bg-accent hover:bg-orange-500 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition">
+            <i class="fas fa-comment-dots text-2xl"></i>
+        </button>
+        
+        <div id="chatbot-container" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-xl shadow-xl overflow-hidden">
+            <div class="bg-primary text-white p-4 flex justify-between items-center">
+                <h3 class="font-bold">Atendimento RastroGado</h3>
+                <button id="chatbot-close" class="text-white hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="chatbot-messages" class="p-4 h-60 overflow-y-auto bg-gray-50">
+                <div class="mb-4">
+                    <div class="bg-primary text-white rounded-lg p-3 inline-block max-w-xs">
+                        <p>Olá! Sou o assistente virtual do RastroGado. Como posso te ajudar hoje?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex">
+                    <input type="text" id="chatbot-input" placeholder="Digite sua mensagem..." class="flex-grow px-4 py-2 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <button id="chatbot-send" class="bg-primary hover:bg-green-700 text-white px-4 py-2 rounded-r-lg transition">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-cow text-accent text-3xl mr-3"></i>
+                        <h3 class="text-2xl font-bold">RastroGado</h3>
+                    </div>
+                    <p class="mb-4">Tecnologia simples para cuidar do seu rebanho com eficiência e tranquilidade.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-accent transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-accent transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-accent transition"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="hover:text-accent transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="hover:text-accent transition">Funcionalidades</a></li>
+                        <li><a href="#how-it-works" class="hover:text-accent transition">Como Funciona</a></li>
+                        <li><a href="#pricing" class="hover:text-accent transition">Planos</a></li>
+                        <li><a href="#contact" class="hover:text-accent transition">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Suporte</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-accent transition">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-accent transition">Perguntas Frequentes</a></li>
+                        <li><a href="#" class="hover:text-accent transition">Política de Privacidade</a></li>
+                        <li><a href="#" class="hover:text-accent transition">Termos de Uso</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Newsletter</h4>
+                    <p class="mb-4">Assine nossa newsletter para receber dicas e novidades.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Seu e-mail" class="px-4 py-2 rounded-l-lg text-gray-800 w-full focus:outline-none">
+                        <button type="submit" class="bg-accent hover:bg-orange-500 px-4 py-2 rounded-r-lg transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-white border-opacity-20 text-center text-sm">
+                <p>&copy; 2023 RastroGado. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // FAQ toggle
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                content.classList.toggle('hidden');
+                icon.classList.toggle('transform');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+        
+        // Chatbot toggle
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const chatbotClose = document.getElementById('chatbot-close');
+        
+        chatbotToggle.addEventListener('click', () => {
+            chatbotContainer.classList.toggle('hidden');
+        });
+        
+        chatbotClose.addEventListener('click', () => {
+            chatbotContainer.classList.add('hidden');
+        });
+        
+        // Simple chatbot functionality
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+        
+        const chatbotResponses = [
+            "Você pode encontrar tutoriais de instalação na seção 'Tutoriais' do nosso site.",
+            "Oferecemos três planos: Starter, Pro e Enterprise. Cada um com diferentes capacidades de monitoramento.",
+            "Os dispositivos têm bateria que dura em média 6 meses e enviam alertas quando está no fim.",
+            "Sim! Temos 15 dias grátis para você testar com até 5 animais.",
+            "Os dispositivos funcionam com rede celular (3G/4G), não sendo necessário Wi-Fi na propriedade.",
+            "Para mais informações, você pode entrar em contato pelo telefone (19) 1234-5678 ou e-mail suporte@rastrogado.com.br"
+        ];
+        
+        function addBotMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('mb-4');
+            messageDiv.innerHTML = `
+                <div class="bg-primary text-white rounded-lg p-3 inline-block max-w-xs">
+                    <p>${message}</p>
+                </div>
+            `;
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+        
+        function addUserMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('mb-4', 'text-right');
+            messageDiv.innerHTML = `
+                <div class="bg-gray-200 text-gray-800 rounded-lg p-3 inline-block max-w-xs">
+                    <p>${message}</p>
+                </div>
+            `;
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+        
+        chatbotSend.addEventListener('click', () => {
+            const message = chatbotInput.value.trim();
+            if (message) {
+                addUserMessage(message);
+                chatbotInput.value = '';
+                
+                // Simulate bot thinking
+                setTimeout(() => {
+                    const randomResponse = chatbotResponses[Math.floor(Math.random() * chatbotResponses.length)];
+                    addBotMessage(randomResponse);
+                }, 1000);
+            }
+        });
+        
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                chatbotSend.click();
+            }
+        });
+        
+        // Form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would typically send the data to a server
+            // For this example, we'll just show an alert
+            alert(`Obrigado, ${name}! Sua mensagem foi enviada com sucesso. Entraremos em contato em breve pelo e-mail ${email}.`);
+            
+            // Reset form
+            this.reset();
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
